@@ -110,8 +110,14 @@ class UserAgentChecker:
         return self.user_agent_os.get("family") == self.IOS
 
     def is_supported_ios_version(self):
+
         return self.is_ios() and not (
-            self.get_user_agent_os_major() == self.MIN_IOS_VERSION
+            int(
+                self.user_agent_os.get("major", "0")
+                if self.user_agent_os.get("major")
+                else "0"
+            )
+            == self.MIN_IOS_VERSION
         )
 
     def is_mac_osx(self):
@@ -119,11 +125,22 @@ class UserAgentChecker:
 
     def is_supported_mac_osx_version(self):
         if self.is_mac_osx():
+
             is_min_mac_maj = (
-                self.get_user_agent_os_major() == self.MIN_MAC_OSX_VERSION_MAJOR
+                int(
+                    self.user_agent_os.get("major", "0")
+                    if self.user_agent_os.get("major")
+                    else "0"
+                )
+                == self.MIN_MAC_OSX_VERSION_MAJOR
             )
             is_min_mac_min = (
-                self.get_user_agent_os_minor() == self.MIN_MAC_OSX_VERSION_MINOR
+                int(
+                    self.user_agent_os.get("minor", "0")
+                    if self.user_agent_os.get("minor")
+                    else "0"
+                )
+                == self.MIN_MAC_OSX_VERSION_MINOR
             )
             return not (is_min_mac_maj and is_min_mac_min)
         return False
